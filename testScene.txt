@@ -2,7 +2,7 @@
 # Background is blue
 Scene
     BackgroundColour 0.2 0.2 0.2
-    RenderSize 320 240
+    RenderSize 1920 1080
 End
 
 # Ground
@@ -20,23 +20,45 @@ End
 
 Object Cube
 	Colour 0 0 1
-	Translate -3 -1 3
+	Translate 0 -1.2 0
 End
 
 # A red sphere, 3 units along the Z axis
-#Object Sphere
-#	Material Red
-#    Specular 1 1 1 20
-#	Translate 3 -1 3
-#End
+Object Sphere
+	Material Red
+    Specular 1 1 1 20
+	Translate 3 -1 3
+End
 
-# A smaller green sphere, 2 units along the Z axis
 Object Sphere
     Specular 1 1 1 20
 	Colour 0 0.6 0.3
 	Scale 0.25
 	Translate 3 -0.25 0
 End
+
+Object Sphere
+    Specular 1 1 1 20
+	Colour 0 0.6 0.3
+	Mirror 0.2 0.2 0.2
+	Scale 0.25
+	Translate -1 -0.25 0
+End
+
+Object Sphere
+    Specular 1 1 1 20
+	Colour 0 0.6 0.3
+	Scale 0.25
+	Translate -2 -0.25 2
+End
+
+Object Cylinder
+    Specular 1 1 1 20
+	Colour 0 0.6 0.3
+	Scale 0.25
+	Translate 0 -0.25 -1
+End
+
 
 # Sphere to show light location
 Object Sphere
@@ -52,12 +74,13 @@ End
 
 # This won't work right away...
 Light PointLight
-	Colour 20 20 20
-	Location 0 2 0
+	Colour 50 50 50
+	Location 0 5 0
 End
 
 # And a camera to render the image
 Camera PinholeCamera 1
     rotate X -30 # look down a bit
-	translate 0 -3 -5 # Move camera back and up
+    rotate Y 30
+	translate -1 -2 -2 # Move camera back and up
 End

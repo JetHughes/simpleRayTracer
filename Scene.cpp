@@ -108,17 +108,17 @@ Colour Scene::computeColour(const Ray& ray, unsigned int rayDepth) const {
 		}
 	}
 
-	//// Code for reflections goes here
-	//if (rayDepth > 0 && hitPoint.material.mirrorColour.red > 0 ||
-	//					hitPoint.material.mirrorColour.green > 0 ||
-	//					hitPoint.material.mirrorColour.blue > 0) {
-	//	Ray reflectedRay;
-	//	reflectedRay.point = hitPoint.point;
-	//	reflectedRay.direction = 2 * (N.dot(V)) * N - V;
-	//	
-	//	Colour mirrorCol = hitPoint.material.mirrorColour;
-	//	hitColour = (Colour(1,1,1) - mirrorCol) * hitColour + mirrorCol * computeColour(reflectedRay, rayDepth - 1);
-	//}
+	// Code for reflections goes here
+	if (rayDepth > 0 && hitPoint.material.mirrorColour.red > 0 ||
+						hitPoint.material.mirrorColour.green > 0 ||
+						hitPoint.material.mirrorColour.blue > 0) {
+		Ray reflectedRay;
+		reflectedRay.point = hitPoint.point;
+		reflectedRay.direction = 2 * (N.dot(V)) * N - V;
+		
+		Colour mirrorCol = hitPoint.material.mirrorColour;
+		hitColour = (Colour(1,1,1) - mirrorCol) * hitColour + mirrorCol * computeColour(reflectedRay, rayDepth - 1);
+	}
 
 
 	hitColour.clip();

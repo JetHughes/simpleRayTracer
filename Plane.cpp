@@ -25,12 +25,6 @@ std::vector<RayIntersection> Plane::intersect(const Ray& ray) const {
 
 	std::vector<RayIntersection> result;
 
-	/***********************************************
-	 * Ray-Plane Intersection is not implemented.  *
-	 * You need to implement it for the assignment.*
-	 ***********************************************/
-
-
 	Ray inverseRay = transform.applyInverse(ray);
 
 	const Point& p = inverseRay.point;
@@ -55,13 +49,13 @@ std::vector<RayIntersection> Plane::intersect(const Ray& ray) const {
 	double t = (a - p).dot(n) / d.dot(n);
 
 	if (t > epsilon) {
-		RayIntersection hit;
 		Vector point = p + t * d;
 		
 		double x = point(0);
 		double z = point(2);
 		if ((x * x) <= 1 && (z*z) <= 1)
 		{
+			RayIntersection hit;
 			hit.point = transform.apply(Point(point));
 			hit.normal = transform.apply(Normal(n));
 			if (hit.normal.dot(ray.direction) > 0) {
