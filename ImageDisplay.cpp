@@ -13,9 +13,9 @@ ImageDisplay::~ImageDisplay() {
 }
 
 void ImageDisplay::set(int x, int y, const Colour& colour) {
-	image_[3*width_*y + 3*x + 0] = unsigned char(255 * colour.red);
-	image_[3*width_*y + 3*x + 1] = unsigned char(255 * colour.green);
-	image_[3*width_*y + 3*x + 2] = unsigned char(255 * colour.blue);
+	image_[3*width_*y + 3*x + 0] = char(255 * colour.red);
+	image_[3*width_*y + 3*x + 1] = char(255 * colour.green);
+	image_[3*width_*y + 3*x + 2] = char(255 * colour.blue);
 	lastRowWritten_ = y;
 }
 

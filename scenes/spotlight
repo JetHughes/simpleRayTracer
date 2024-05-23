@@ -1,0 +1,56 @@
+# Small image so we don't have to wait too long
+# Background is blue
+Scene
+    BackgroundColour 0.2 0.2 0.2
+    RenderSize 400 400
+End
+
+Object Plane
+	Mirror 0.2 0.2 0.2
+	Colour 0.8 0.8 0.8
+	Scale 5
+End
+
+Object Torus 0.5
+    Specular 1 1 1 15
+	Colour 0.8 0.8 0.8
+	Rotate X 90
+	Translate -1.5 -0.25 0
+End
+
+Object Cube
+    Specular 1 1 1 20
+	Colour 0.8 0.8 0.8
+	Translate 0 -0.5 1
+End
+
+Object Cylinder
+    Specular 1 1 1 20
+	Colour 0.8 0.8 0.8
+    Scale 0.5
+	Translate 0 -0.5 -1
+End
+
+Object Sphere
+    Specular 1 1 1 20
+	Colour 0.8 0.8 0.8
+    Scale 1
+	Translate 2 -0.5 0
+End
+
+Light AmbientLight
+	Colour 0.2 0.2 0.2
+End
+
+Light SpotLight
+	Colour 2 2 2
+	Direction -1 1 -1
+	Angle 30
+	Location 0 -3 0
+End
+
+Camera PinholeCamera 1
+    Rotate X -40 # look down a bit
+    Rotate Y 45
+	Translate -2.5 -2.5 -2.5 # Move camera back and up
+End

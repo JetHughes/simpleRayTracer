@@ -30,19 +30,19 @@ std::vector<RayIntersection> Plane::intersect(const Ray& ray) const {
 	const Point& p = inverseRay.point;
 	const Direction& d = inverseRay.direction/inverseRay.direction.norm();
 
+	// Plane at origin facing the positive y-axis
+	Point a(0.0, 0.0, 0.0);
+	Normal n(0.0, 1.0, 0.0);
+
 	// Point p is on the plane if (p - a) dot n = 0
 	// Ray: r = r0 + td
 	// Substitute r into plane equation:
 	// (r0 + td - a) dot n = 0
 	// solve for t:
-	// t = (a - r0) dot n / d dot n
-	
-	// Plane at origin facing the positive y-axis
-	Point a(0.0, 0.0, 0.0);
-	Normal n(0.0, 1.0, 0.0);
+	// t = (a - r0) dot n / d dot n	
 
 	// ray is parallel to the plane
-	if (abs(d.dot(n)) < epsilon) {
+	if (fabs(d.dot(n)) < epsilon/100) {
 		return result;
 	}
 

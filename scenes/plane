@@ -1,0 +1,47 @@
+# Small image so we don't have to wait too long
+# Background is blue
+Scene
+    BackgroundColour 0.2 0.2 0.2
+    RenderSize 400 400
+End
+
+Object Plane
+	Colour 0.8 0.0 0.0
+	Specular 1.0 1.0 1.0 10
+	Mirror 0.5 0.5 0.5
+	Translate 0 0 0
+End
+
+Object Plane
+	Colour 0.8 0.0 0.0
+	Specular 1.0 1.0 1.0 10
+	Translate 0 0 0
+    Rotate X 90    
+End
+
+Object Plane
+	Colour 0.8 0.0 0.0
+	Specular 1.0 1.0 1.0 10
+	Translate 0 0 0
+    Rotate X 90    
+	Rotate Y 90
+End
+
+
+# Plenty of ambient light - since it all we have to start
+Light AmbientLight
+	Colour 0.2 0.2 0.2
+End
+
+# This won't work right away...
+Light PointLight
+	Colour 40 40 40
+	Location 0 -10 0
+End
+
+# And a camera to render the image
+Camera PinholeCamera 1
+    rotate X -30 # look down a bit
+    rotate Y 30
+	translate -1 -2 -2 # Move camera back and up
+End

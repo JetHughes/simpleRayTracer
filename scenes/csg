@@ -1,0 +1,93 @@
+# Small image so we don't have to wait too long
+# Background is blue
+Scene
+    BackgroundColour 0.1 0.1 0.1
+    RenderSize 400 400
+End
+
+Material Grey
+	Colour 0.8 0.8 0.8
+    #Mirror 0.1 0.1 0.1
+    #Specular 1.0 1.0 1.0 20
+End
+
+# Ground
+Object Plane
+    Colour 0.8 0.8 0.8
+    Mirror 0.4 0.4 0.4
+	Scale 5
+End
+
+CSG UNION
+    Translate -1.5 -0.5 -1.5
+    Object Cube
+        Material Grey
+        Scale3 0.5 0.5 2
+        Scale 0.7
+        Translate 0 0 0
+    End
+    Object Sphere
+        Material Grey
+        Scale 0.5
+        Translate 0 0 0
+    End
+End
+
+CSG DIFFERENCE
+    Translate 0.5 -0.5 0.5
+    Object Cube
+        Material Grey
+        Translate -0.5 0 0
+    End
+    Object Sphere
+        Material Grey
+        Translate 0 0 -1
+    End
+End
+
+CSG INTERSECTION
+    Translate 0 -0.5 -1
+    Object Cube
+        Material Grey
+        Translate 0 0 0
+    End
+    Object Sphere
+        Material Grey
+        Translate 0.5 0 -1
+    End
+End
+
+CSG DIFFERENCE
+    Rotate Y 45
+    Translate -1.5 -0.5 -0.5
+    Object Sphere
+        Material Grey
+        Scale 0.5
+        Translate -0.8 0 0
+    End
+    Object Cube
+        Material Grey
+        Rotate Y 45
+        Translate 0 0 0
+    End
+End
+
+Light AmbientLight
+	Colour 0.3 0.3 0.3
+End
+
+Light PointLight
+	Colour 100 100 100
+	Location 0 -10 -10
+End
+
+#Light PointLight
+#	Colour 100 100 100
+#	Location -15 -20 0
+#End
+
+Camera PinholeCamera 1
+    rotate X -40 # look down a bit
+    rotate Y 45
+	translate -2.5 -2.5 -2.5 # Move camera back and up
+End

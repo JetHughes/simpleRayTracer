@@ -6,14 +6,15 @@ Scene
 End
 
 # Ground
-#Object Plane
-#	Colour 0.8 0.8 0.8
-#	Scale 5
-#End
-
-Object Torus 2
+Object Plane
 	Colour 0.8 0.8 0.8
-	Translate 0 0 0
+	Scale 5
+End
+
+Object Cube
+	Colour 0.8 0.8 0.8
+	Translate 0 -0.5 0
+	Rotate Y 15
 End
 
 Light AmbientLight
@@ -22,11 +23,11 @@ End
 
 Light PointLight
 	Colour 100 100 100
-	Location 10 -10 -10
+	Location 0 -10 -10
 End
 
 Camera PinholeCamera 1
     rotate X -30 # look down a bit
     rotate Y 45
-	translate -2 -2 -2 # Move camera back and up
+	translate -2 -3 -2 # Move camera back and up
 End

@@ -1,0 +1,1 @@
+on linux with gcc 12 `abs` returns integers. I switched most uses of `abs` to `fabs`

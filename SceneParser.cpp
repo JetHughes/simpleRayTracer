@@ -122,6 +122,8 @@ void SceneParser::parseSceneBlock(std::queue<Token>& tokens) {
 		} else if (t == "FILENAME") {
 			scene->filename = parseString(tokens);
 			tokens.pop();
+		} else if (t == "SUPERSAMPLING") {
+			scene->supersampling_ = true;
 		}
 	}
 	// Pop the END token

@@ -129,6 +129,7 @@ public:
 	unsigned int renderWidth;  //!< Width in pixels of the image to render.
 	unsigned int renderHeight; //!< Height in pixels of the image to render.
 	std::string filename;      //!< File to save the image to.
+	bool supersampling_;	   //!< Whether to use super-sampling for anti-aliasing.
 
 private:
 

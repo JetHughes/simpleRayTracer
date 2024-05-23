@@ -5,6 +5,7 @@
 
 #include "Object.h"
 #include <memory>
+#include "utility.h"
 
 /**
  * \file
@@ -83,4 +84,4 @@ private:
 
 };
 
-#endif#pragma once
+#endif

@@ -6,7 +6,7 @@
 
 // For demos
 
-Scene::Scene() : backgroundColour(0,0,0), ambientLight(0,0,0), maxRayDepth(3), renderWidth(800), renderHeight(600), filename("render.png"), camera_(), objects_(), lights_() {
+Scene::Scene() : backgroundColour(0,0,0), ambientLight(0,0,0), maxRayDepth(3), renderWidth(800), renderHeight(600), filename("renders/render.png"), camera_(), objects_(), lights_(), supersampling_(false) {
 
 }
 
@@ -28,14 +28,48 @@ void Scene::render() const {
 	 * update the SceneParser routines, probably parseSceneBlock *
 	 *************************************************************/
 
-	for (unsigned int v = 0; v < renderHeight; ++v) {
-		for (unsigned int u = 0; u < renderWidth; ++u) {
-			double cu = -1 + (u + 0.5)*(2.0 / w);
-			double cv = -h/w + (v + 0.5)*(2.0 / w);
-			Ray ray = camera_->castRay(cu, cv);
-			display.set(u, v, computeColour(ray, maxRayDepth));
+	if (supersampling_)
+	{
+		// Grid Super-sampling for anti-aliasing
+		for (unsigned int v = 0; v < renderHeight; ++v) {
+			for (unsigned int u = 0; u < renderWidth; ++u) {
+				double cu1 = -1 + (u + 0.25)*(2.0 / w);
+				double cv1 = -h/w + (v + 0.25)*(2.0 / w);
+				Ray ray1 = camera_->castRay(cu1, cv1);
+				Colour colour1 = computeColour(ray1, maxRayDepth);
+
+				double cu2 = -1 + (u + 0.25)*(2.0 / w);
+				double cv2 = -h/w + (v + 0.75)*(2.0 / w);
+				Ray ray2 = camera_->castRay(cu2, cv2);
+				Colour colour2 = computeColour(ray2, maxRayDepth);
+
+				double cu3 = -1 + (u + 0.75)*(2.0 / w);
+				double cv3 = -h/w + (v + 0.25)*(2.0 / w);
+				Ray ray3 = camera_->castRay(cu3, cv3);
+				Colour colour3 = computeColour(ray3, maxRayDepth);
+
+				double cu4 = -1 + (u + 0.75)*(2.0 / w);
+				double cv4 = -h/w + (v + 0.75)*(2.0 / w);
+				Ray ray4 = camera_->castRay(cu4, cv4);
+				Colour colour4 = computeColour(ray4, maxRayDepth);
+				
+				// Jitter
+
+				Colour colour = (colour1 + colour2 + colour3 + colour4) / 4.0;
+				display.set(u, v, colour);
+			}
+			display.refresh();
 		}
-		display.refresh();
+	} else {
+		for (unsigned int v = 0; v < renderHeight; ++v) {
+			for (unsigned int u = 0; u < renderWidth; ++u) {
+				double cu = -1 + (u + 0.5)*(2.0 / w);
+				double cv = -h/w + (v + 0.5)*(2.0 / w);
+				Ray ray = camera_->castRay(cu, cv);
+				display.set(u, v, computeColour(ray, maxRayDepth));
+			}
+			display.refresh();
+		}
 	}
 
 	display.save(filename);
@@ -86,7 +120,7 @@ Colour Scene::computeColour(const Ray& ray, unsigned int rayDepth) const {
 			
 			// Shadows
 			Ray shadowRay;
-			shadowRay.point = hit.point;
+			shadowRay.point = hit.point + epsilon * L;
 			shadowRay.direction = L;
 			RayIntersection shadowHit = intersect(shadowRay);
 			if (shadowHit.distance < infinity && shadowHit.distance > 0) continue;

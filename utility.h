@@ -67,7 +67,7 @@ inline double rad2deg(double rad) {
  * \return 0, +1, or -1 depending on the sign of \c val.
  */
 inline int sign(double val) {
-	if (std::abs(val) < epsilon) return 0;
+	if (std::fabs(val) < epsilon) return 0;
 	if (val < 0) return -1;
 	return 1;
 }
@@ -100,7 +100,7 @@ inline std::string toUpper(const std::string& str) {
  */
 inline std::vector<double> solveLinear(double a, double b) {
 	std::vector<double> result;
-	if (std::abs(a) > epsilon) {
+	if (std::fabs(a) > epsilon) {
 		result.push_back(-b / a);
 	}
 	return result;

@@ -31,6 +31,7 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 
 	 // cylinder centered at origin with radius 1 and length 2 along z-axis
 	// main body
+	double r = 1;
 
 	double a = d(0) * d(0) + d(1) * d(1);
 	double b = 2 * (p(0) * d(0) + p(1) * d(1));
@@ -42,7 +43,7 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 		if (t > epsilon) {
 			Point hitPoint = p + t * d;
 			double z = hitPoint(2);
-			if ((z * z) <= 1)
+			if ((z * z) <= r*r)
 			{
 				RayIntersection hit;
 				hit.point = transform.apply(Point(p + t * d));				
@@ -59,39 +60,52 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 		}
 	}
 
-	// caps
-	/*
-	for (int i = -1; i <=1; i+=2)
-	{
-		Point centre(0, 0, i);
-		Normal normal(0, 0, -i);
-			
-		// ray is parallel to the plane
-		if (abs(d.dot(normal)) < epsilon) {
-			return result;
-		}
-
-		double t = (centre - p).dot(normal) / d.dot(normal);
-		Point hitPoint = p + t * d;
-
-		double x = hitPoint(0);
-		double y = hitPoint(1);
-
-		if ((x * x + y * y) <= 1)
-		{
+	double u;
+	if (fabs(d(2)) > epsilon) {
+		u = (r - p(2)) / d(2);
+		if (u>epsilon) {
 			RayIntersection hit;
-			hit.point = transform.apply(hitPoint);
-			hit.normal = transform.apply(normal);
-			if (hit.normal.dot(ray.direction) > 0) {
-				hit.normal = -hit.normal;
-			}
-			hit.normal = hit.normal / hit.normal.norm();
-			hit.distance = (hit.point - ray.point).norm();
-			hit.material = material;
-			result.push_back(hit);
-		}
-	}*/
+			hit.point = p + u * d;
+			double x = hit.point(0);
+			double y = hit.point(1);
 
+			if((x * x + y * y) <= r*r)
+			{
+				hit.point = transform.apply(hit.point);
+				hit.normal = Normal(0, 0, 1);
+				hit.normal = transform.apply(hit.normal);
+				hit.normal = hit.normal / hit.normal.norm();
+				if (hit.normal.dot(ray.direction) > 0) {
+					hit.normal = -hit.normal;
+				}
+				hit.distance = (hit.point - ray.point).norm();
+				hit.material = material;
+				result.push_back(hit);
+			}
+		}
+
+		u = (-r - p(2)) / d(2);
+		if (u>epsilon) {
+			RayIntersection hit;
+			hit.point = p + u * d;
+			double x = hit.point(0);
+			double y = hit.point(1);
+
+			if((x * x + y * y) <= r*r)
+			{
+				hit.point = transform.apply(hit.point);
+				hit.normal = Normal(0, 0, -1);
+				hit.normal = transform.apply(hit.normal);
+				hit.normal = hit.normal / hit.normal.norm();
+				if (hit.normal.dot(ray.direction) > 0) {
+					hit.normal = -hit.normal;
+				}
+				hit.distance = (hit.point - ray.point).norm();
+				hit.material = material;
+				result.push_back(hit);
+			}
+		}
+	}
 
 	return result;
 }

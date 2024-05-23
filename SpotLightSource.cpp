@@ -27,14 +27,16 @@ SpotLightSource& SpotLightSource::operator=(const SpotLightSource& lightSource) 
 }
 
 Colour SpotLightSource::getIlluminationAt(const Point& point) const {
-  
-	Colour colour;
+	double angleRad = deg2rad(angle_);
+	double distance = (location_ - point).norm();
+	if (distance < epsilon) distance = epsilon;
+	Direction toHit = (point - location_)/(point - location_).norm();
 
-	/**************************************************************
- 	 * Code to compute spotlight illumination at point goes here. *
-	 **************************************************************/
+	double angle = acos(toHit.dot(direction_/direction_.norm()));
 
-	return colour;
+	if (angle > angleRad) return Colour(0, 0, 0);
+
+	return (1.0 / (distance*distance)) * colour_;
 }
 
 double SpotLightSource::getDistanceToLight(const Point& point) const {
