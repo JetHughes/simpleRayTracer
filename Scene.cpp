@@ -60,8 +60,8 @@ RayIntersection Scene::intersect(const Ray& ray) const {
 }
 
 Colour Scene::computeColour(const Ray& ray, unsigned int rayDepth) const {
-	RayIntersection hitPoint = intersect(ray);
-	if (hitPoint.distance == infinity) {
+	RayIntersection hit = intersect(ray);
+	if (hit.distance == infinity) {
 		return backgroundColour;
 	}
 
@@ -71,52 +71,43 @@ Colour Scene::computeColour(const Ray& ray, unsigned int rayDepth) const {
 	 * Code for better lighting, shadows, and reflections goes below. *
 	 ******************************************************************/
 
-	Normal N(hitPoint.normal/hitPoint.normal.norm()); // Unit normal
 	Direction V(-ray.direction/ray.direction.norm()); // Unit view vector
 
 	for (const auto & light : lights_) {
 
 		// Compute the influence of this light on the appearance of the hit object.
-		if (light->getDistanceToLight(hitPoint.point) < 0) {
+		if (light->getDistanceToLight(hit.point) < 0) {
 			// An ambient light, ignore shadows and add appropriate colour
-			hitColour += light->getIlluminationAt(hitPoint.point) * hitPoint.material.ambientColour;
+			hitColour += light->getIlluminationAt(hit.point) * hit.material.ambientColour;
 		} else {
-			// Not an ambient light
-			Direction L(light->getLightDirection(hitPoint.point));
+			//// Not an ambient light
+			Direction L(-light->getLightDirection(hit.point));
 			L = L/L.norm(); // get unit vector
 			
 			// Shadows
 			Ray shadowRay;
-			shadowRay.point = hitPoint.point;
+			shadowRay.point = hit.point;
 			shadowRay.direction = L;
-			RayIntersection shadowHitPoint = intersect(shadowRay);
+			RayIntersection shadowHit = intersect(shadowRay);
+			if (shadowHit.distance < infinity && shadowHit.distance > 0) continue;
 
-			if (shadowHitPoint.distance >= infinity) {
-				Direction R(2* (N.dot(L)) * N - L);
-
-				Colour Id(light->getIlluminationAt(hitPoint.point));
-				Colour Kd(hitPoint.material.diffuseColour);
-				Colour Ks(hitPoint.material.specularColour);
-				double alpha = hitPoint.material.specularExponent;
-
-				// Diffuse
-				hitColour += Id * Kd * (N.dot(L));
-
-				// Specular
-				hitColour += Id * Ks * pow(R.dot(V), alpha);
-			}
+			//// Diffuse and specular
+			Colour Id(light->getIlluminationAt(hit.point));
+			hitColour += Id * hit.material.diffuseColour * (hit.normal.dot(L)); // diffuse
+			Direction R(2* (hit.normal.dot(L)) * hit.normal - L);
+			hitColour += Id * hit.material.specularColour * pow(R.dot(V), hit.material.specularExponent); //specular
 		}
 	}
 
 	// Code for reflections goes here
-	if (rayDepth > 0 && hitPoint.material.mirrorColour.red > 0 ||
-						hitPoint.material.mirrorColour.green > 0 ||
-						hitPoint.material.mirrorColour.blue > 0) {
+	if (rayDepth > 0 && hit.material.mirrorColour.red > 0 ||
+						hit.material.mirrorColour.green > 0 ||
+						hit.material.mirrorColour.blue > 0) {
 		Ray reflectedRay;
-		reflectedRay.point = hitPoint.point;
-		reflectedRay.direction = 2 * (N.dot(V)) * N - V;
+		reflectedRay.point = hit.point;
+		reflectedRay.direction = 2 * (hit.normal.dot(V)) * hit.normal - V;
 		
-		Colour mirrorCol = hitPoint.material.mirrorColour;
+		Colour mirrorCol = hit.material.mirrorColour;
 		hitColour = (Colour(1,1,1) - mirrorCol) * hitColour + mirrorCol * computeColour(reflectedRay, rayDepth - 1);
 	}
 

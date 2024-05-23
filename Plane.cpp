@@ -49,18 +49,19 @@ std::vector<RayIntersection> Plane::intersect(const Ray& ray) const {
 	double t = (a - p).dot(n) / d.dot(n);
 
 	if (t > epsilon) {
-		Vector point = p + t * d;
+		Point hitPoint = p + t * d;
 		
-		double x = point(0);
-		double z = point(2);
+		double x = hitPoint(0);
+		double z = hitPoint(2);
 		if ((x * x) <= 1 && (z*z) <= 1)
 		{
 			RayIntersection hit;
-			hit.point = transform.apply(Point(point));
+			hit.point = transform.apply(hitPoint);
 			hit.normal = transform.apply(Normal(n));
 			if (hit.normal.dot(ray.direction) > 0) {
 				hit.normal = -hit.normal;
 			}
+			hit.normal = hit.normal / hit.normal.norm();
 			hit.distance = (hit.point - ray.point).norm();
 			hit.material = material;
 			result.push_back(hit);

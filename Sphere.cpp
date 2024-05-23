@@ -46,6 +46,7 @@ std::vector<RayIntersection> Sphere::intersect(const Ray& ray) const {
 				hit.normal = -hit.normal;
 			}
 			hit.distance = (hit.point - ray.point).norm();
+			hit.normal = hit.normal / hit.normal.norm();
 			hit.material = material;
 			result.push_back(hit);
 		}

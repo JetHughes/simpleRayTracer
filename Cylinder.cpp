@@ -41,13 +41,11 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 	for (double t : roots) {
 		if (t > epsilon) {
 			Point hitPoint = p + t * d;
-
 			double z = hitPoint(2);
 			if ((z * z) <= 1)
 			{
 				RayIntersection hit;
-				hit.point = transform.apply(Point(p + t * d));
-				
+				hit.point = transform.apply(Point(p + t * d));				
 				hit.normal = Normal(hitPoint(0), hitPoint(1), 0);
 				hit.normal = transform.apply(hit.normal);
 				hit.normal = hit.normal / hit.normal.norm();
@@ -62,33 +60,37 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 	}
 
 	// caps
-
-	// if ray is not parallel to x-y plane
-	if (d(2) > epsilon)
+	/*
+	for (int i = -1; i <=1; i+=2)
 	{
-		for (int i = -1; i <= 1; i+=2)
-		{
-			double t = (i-p(2)) / d(2);
-			Point hitPoint = p + t * d;
-
-			double x = hitPoint(0);
-			double y = hitPoint(1);
-
-			if ((x * x + y * y) <= 1)
-			{
-				RayIntersection hit;
-				hit.point = transform.apply(hitPoint);
-				hit.normal = i == 0 ? Normal(0, 0, 1) : Normal(0, 0, -1);
-				hit.normal = transform.apply(hit.normal);
-				if (hit.normal.dot(ray.direction) > 0) {
-					hit.normal = -hit.normal;
-				}
-				hit.distance = (hit.point - ray.point).norm();
-				hit.material = material;
-				result.push_back(hit);
-			}
+		Point centre(0, 0, i);
+		Normal normal(0, 0, -i);
+			
+		// ray is parallel to the plane
+		if (abs(d.dot(normal)) < epsilon) {
+			return result;
 		}
-	}
+
+		double t = (centre - p).dot(normal) / d.dot(normal);
+		Point hitPoint = p + t * d;
+
+		double x = hitPoint(0);
+		double y = hitPoint(1);
+
+		if ((x * x + y * y) <= 1)
+		{
+			RayIntersection hit;
+			hit.point = transform.apply(hitPoint);
+			hit.normal = transform.apply(normal);
+			if (hit.normal.dot(ray.direction) > 0) {
+				hit.normal = -hit.normal;
+			}
+			hit.normal = hit.normal / hit.normal.norm();
+			hit.distance = (hit.point - ray.point).norm();
+			hit.material = material;
+			result.push_back(hit);
+		}
+	}*/
 
 
 	return result;
