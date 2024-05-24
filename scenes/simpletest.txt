@@ -3,12 +3,14 @@
 Scene
     BackgroundColour 0.2 0.2 0.2
     RenderSize 400 400
+	Filename renders/simplenosuper.png
 End
 
 Object Plane
 	Mirror 0.2 0.2 0.2
 	Colour 0.8 0.8 0.8
 	Scale 5
+	Rotate X 90
 End
 
 Object Torus 0.5
@@ -50,5 +52,5 @@ End
 Camera PinholeCamera 1
     rotate X -40 # look down a bit
     rotate Y 45
-	translate -2.5 -2.5 -2.5 # Move camera back and up
+	translate -2 -2 -2 # Move camera back and up
 End

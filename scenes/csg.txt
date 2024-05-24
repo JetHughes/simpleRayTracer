@@ -2,7 +2,8 @@
 # Background is blue
 Scene
     BackgroundColour 0.1 0.1 0.1
-    RenderSize 400 400
+    RenderSize 300 300
+    Filename renders/csg.png
 End
 
 Material Grey
@@ -15,6 +16,7 @@ End
 Object Plane
     Colour 0.8 0.8 0.8
     Mirror 0.4 0.4 0.4
+    Rotate X 90
 	Scale 5
 End
 

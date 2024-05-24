@@ -9,44 +9,25 @@ std::vector<RayIntersection> CSG::intersect(const Ray& ray) const {
 
 	Ray inverseRay = transform.applyInverse(ray);
 
-	double delta = pow(epsilon, 0.25);
-
 	struct CSGHit
 	{
 		RayIntersection hit;
 		uint8_t object;
-	};
-	
+	};	
 	
 	std::vector<CSGHit> csgHits;
-	std::vector<RayIntersection> leftHits;
-	std::vector<RayIntersection> rightHits;
 
 	// Cast ray through both objects
 	for (const auto& hit: left->intersect(inverseRay)) {
-		if (hit.distance > delta && hit.distance) {
-			csgHits.push_back(CSGHit{hit, 0});
-			leftHits.push_back(hit);
-		}
+		csgHits.push_back(CSGHit{hit, 0});
 	}
 	for (const auto& hit: right->intersect(inverseRay)) {
-		if (hit.distance > delta && hit.distance) {
-			csgHits.push_back(CSGHit{hit, 1});
-			rightHits.push_back(hit);
-		}
+		csgHits.push_back(CSGHit{hit, 1});
 	}
 
 	// Sort hits by distance
 	std::sort(csgHits.begin(), csgHits.end(), [](const CSGHit& a, const CSGHit& b) {
 		return a.hit.distance < b.hit.distance;
-	});
-
-	std::sort(leftHits.begin(), leftHits.end(), [](const RayIntersection& a, const RayIntersection& b) {
-		return a.distance < b.distance;
-	});
-
-	std::sort(rightHits.begin(), rightHits.end(), [](const RayIntersection& a, const RayIntersection& b) {
-		return a.distance < b.distance;
 	});
 
 	if (csgHits.size() == 0)
@@ -55,13 +36,13 @@ std::vector<RayIntersection> CSG::intersect(const Ray& ray) const {
 	}	
 
 	if(operation == UNION) {
-		// Union return all hits
-		for (const auto& csgHit: csgHits) {
-			result.push_back(csgHit.hit);
-		}		
+		// Union return first hits
+		result.push_back(csgHits[0].hit);
 	}
+	// Acts similar to a state machine. Keep track of which objects you are inside 
+	// of and keep hits when the condition is satisfied
 	else if(operation == INTERSECTION) {
-		// Intersection
+		// Intersection. In Left and in Right
 		bool inLeft = false;
 		bool inRight = false;
 		for (auto& csgHit: csgHits) {
@@ -74,11 +55,12 @@ std::vector<RayIntersection> CSG::intersect(const Ray& ray) const {
 
 			if(inLeft && inRight) {
 				result.push_back(csgHit.hit);
+
 			}
 		}
 	}
 	else if(operation == DIFFERENCE) {
-		// Difference
+		// Difference. In Left and not in Right
 		bool inLeft = false;
 		bool inRight = false;
 		for (auto& csgHit: csgHits) {

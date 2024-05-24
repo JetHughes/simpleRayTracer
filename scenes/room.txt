@@ -1,0 +1,109 @@
+# Small image so we don't have to wait too long
+# Background is blue
+Scene
+    BackgroundColour 0.8 0.8 1.0
+    RenderSize 320 320
+    Filename renders/room.png
+    # Supersampling
+End
+
+Object Plane
+    Colour 0.9 0.9 0.9  # Light grey ground
+    Scale 4
+    Rotate X 90
+End
+
+
+Material Mirror
+    Specular 1 1 1 50
+    Mirror 0.5 0.5 0.5
+End
+
+Material Shiny
+    Specular 1 1 1 100
+End
+
+Object Torus 2 
+    Material Mirror
+    Rotate Y -30
+    Colour 0.9 0.9 0.9
+    Translate 0 -4 0
+End
+
+#Roof
+Object Plane
+	Colour 0.9 0.9 0.9
+    Scale 4
+    Rotate X 90
+    Translate 0 -8 0
+End
+
+# Back wall
+Object Plane
+	Colour 0.9 0.9 0.9
+    Scale 4
+    Translate 0 -4 4
+End
+
+# Right wall
+Object Plane
+	Colour 0.5 1 0.5
+    Rotate Y -90
+    Scale 4
+    Translate 4 -4 0
+End
+
+# Left wall
+Object Plane
+    Colour 1 0.5 0.5
+    Rotate Y -90
+    Scale 4
+    Translate -4 -4 0
+End
+
+# Front wall
+Object Plane
+	Colour 0.9 0.9 0.9
+    Scale 4
+    Translate 0 -4 -4
+End
+
+Light AmbientLight
+    Colour 0.2 0.2 0.2
+End
+
+# Light PointLight
+#    Colour 200 200 200
+#    Location 10 -20 -10
+# End
+
+Light PointLight
+   Colour 2 2 2
+   Location -2 -6 2
+End
+
+Light PointLight
+   Colour 2 2 2
+   Location 2 -6 2
+End
+
+Light PointLight
+   Colour 2 2 2
+   Location 2 -6 -2
+End
+
+Light PointLight
+   Colour 2 2 2
+   Location -2 -6 -2
+End
+
+# Light SpotLight
+#     Colour 5 5 5
+#     Location 0 -7 0
+#     Direction 0 1 0
+#     Angle 40
+# End
+
+Camera PinholeCamera 0.9
+    Translate 0 -4 -4
+End

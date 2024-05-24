@@ -1,0 +1,128 @@
+# Small image so we don't have to wait too long
+# Background is blue
+Scene
+	BackgroundColour 0.8 0.8 1.0
+    RenderSize 1280 720
+	SuperSampling
+	Filename renders/simplecolour.png
+End
+
+Material Mirror
+    Specular 1 1 1 100
+    Mirror 0.8 0.8 0.8
+End
+
+Material Shiny
+    Specular 1 1 1 100
+End
+
+Material SlightMirror
+	Specular 1 1 1 100
+	Mirror 0.3 0.3 0.3
+End
+
+Object Plane
+	Colour 0.8 0.8 0.8
+	Scale 50
+	Rotate X 90
+End
+
+Object Torus 0.5
+	Material Mirror
+	Colour 0.8 0.8 0.8
+	Rotate X 90
+	Translate -1.5 -0.24 0
+End
+
+Object Torus 1
+	Material Mirror
+	Colour 0.8 0.8 0.8
+	Translate 0 -1.5 3
+End
+
+Object Cube
+	Material Shiny
+	Colour 0.8 0.8 0.8
+	Rotate Y 30
+	Translate 0 -0.5 1
+End
+
+Object Cylinder
+	Colour 0.9 0.7 0.3
+    Scale 0.5
+	Translate 0 -0.49 -1
+End
+
+Object Cylinder
+	Material Shiny
+	Colour 0.9 0.7 0.3
+    Scale3 0.5 0.5 1
+	Rotate X 90
+	Translate 0 -1 -2.2
+End
+
+Object Cylinder
+	Material Shiny
+	Colour 0.5 0.5 0.8
+	Rotate X 90
+	Translate 4 -1 4
+End
+
+Object Sphere
+	Material SlightMirror
+	Colour 0.9 0.1 1
+    Scale 1
+	Translate 2 -1 0
+End
+
+Object Sphere
+    Material Shiny
+	Colour 0.9 0.8 0.6
+    Scale 0.25
+	Translate -1 -0.25 -1
+End
+
+Object Sphere
+    Material Shiny
+	Colour 0.6 0.9 0.4
+    Scale 0.25
+	Translate 2 -0.25 -2
+End
+
+Object Sphere
+	Colour 0.1 0.8 0.3
+    Scale 0.25
+	Translate -2 -0.25 1.5
+End
+
+Light AmbientLight
+    Colour 0.3 0.3 0.3
+End
+
+Light PointLight
+   Colour 200 200 200
+   Location 10 -20 -10
+End
+
+Light PointLight
+   Colour 800 800 800
+   Location -40 -40 40
+End
+
+Light PointLight
+   Colour 300 300 300
+   Location -50 -50 -50
+End
+
+Light SpotLight
+    Colour 100 100 100
+    Direction 0 1 0
+    Angle 45
+    Location 0 -20 0
+End
+
+Camera PinholeCamera 1
+    rotate X -50 # look down a bit
+    rotate Y 45
+	translate -1.5 -3 -1.5 # Move camera back and up
+End

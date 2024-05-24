@@ -121,7 +121,7 @@ void SceneParser::parseSceneBlock(std::queue<Token>& tokens) {
 			scene->renderHeight = int(parseNumber(tokens));
 		} else if (t == "FILENAME") {
 			scene->filename = parseString(tokens);
-			tokens.pop();
+			// tokens.pop();
 		} else if (t == "SUPERSAMPLING") {
 			scene->supersampling_ = true;
 		}

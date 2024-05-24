@@ -29,10 +29,11 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 	const Point& p = inverseRay.point;
 	const Direction& d = inverseRay.direction;
 
-	 // cylinder centered at origin with radius 1 and length 2 along z-axis
+	// cylinder centered at origin with radius 1 and length 2 along z-axis
 	// main body
 	double r = 1;
 
+	// With with reference to https://mrl.cs.nyu.edu/~dzorin/rendering/lectures/lecture3/lecture3.pdf
 	double a = d(0) * d(0) + d(1) * d(1);
 	double b = 2 * (p(0) * d(0) + p(1) * d(1));
 	double c = p(0) * p(0) + p(1) * p(1) - 1;
@@ -60,12 +61,13 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 		}
 	}
 
-	double u;
+	// Adapted from http://cosinekitty.com/raytrace/chapter11_reorientable.html#sect_11_7
+	double t;
 	if (fabs(d(2)) > epsilon) {
-		u = (r - p(2)) / d(2);
-		if (u>epsilon) {
+		t = (r - p(2)) / d(2);
+		if (t>epsilon) {
 			RayIntersection hit;
-			hit.point = p + u * d;
+			hit.point = p + t * d;
 			double x = hit.point(0);
 			double y = hit.point(1);
 
@@ -84,10 +86,10 @@ std::vector<RayIntersection> Cylinder::intersect(const Ray& ray) const {
 			}
 		}
 
-		u = (-r - p(2)) / d(2);
-		if (u>epsilon) {
+		t = (-r - p(2)) / d(2);
+		if (t>epsilon) {
 			RayIntersection hit;
-			hit.point = p + u * d;
+			hit.point = p + t * d;
 			double x = hit.point(0);
 			double y = hit.point(1);
 

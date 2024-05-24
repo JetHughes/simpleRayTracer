@@ -100,10 +100,6 @@ Colour Scene::computeColour(const Ray& ray, unsigned int rayDepth) const {
 	}
 
 	Colour hitColour(0, 0, 0);
-		
-	/******************************************************************
-	 * Code for better lighting, shadows, and reflections goes below. *
-	 ******************************************************************/
 
 	Direction V(-ray.direction/ray.direction.norm()); // Unit view vector
 
@@ -123,7 +119,7 @@ Colour Scene::computeColour(const Ray& ray, unsigned int rayDepth) const {
 			shadowRay.point = hit.point + epsilon * L;
 			shadowRay.direction = L;
 			RayIntersection shadowHit = intersect(shadowRay);
-			if (shadowHit.distance < infinity && shadowHit.distance > 0) continue;
+			if (shadowHit.distance < light->getDistanceToLight(hit.point) && shadowHit.distance > epsilon) continue;
 
 			//// Diffuse and specular
 			Colour Id(light->getIlluminationAt(hit.point));

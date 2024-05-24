@@ -27,6 +27,7 @@ SpotLightSource& SpotLightSource::operator=(const SpotLightSource& lightSource) 
 }
 
 Colour SpotLightSource::getIlluminationAt(const Point& point) const {
+	// made with reference to https://github.com/GriffinSchneider/raytracer/blob/master/src/SpotLight.java
 	double angleRad = deg2rad(angle_);
 	double distance = (location_ - point).norm();
 	if (distance < epsilon) distance = epsilon;

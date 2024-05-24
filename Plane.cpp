@@ -30,43 +30,32 @@ std::vector<RayIntersection> Plane::intersect(const Ray& ray) const {
 	const Point& p = inverseRay.point;
 	const Direction& d = inverseRay.direction/inverseRay.direction.norm();
 
-	// Plane at origin facing the positive y-axis
-	Point a(0.0, 0.0, 0.0);
-	Normal n(0.0, 1.0, 0.0);
+	double sideLength = 1;
 
-	// Point p is on the plane if (p - a) dot n = 0
-	// Ray: r = r0 + td
-	// Substitute r into plane equation:
-	// (r0 + td - a) dot n = 0
-	// solve for t:
-	// t = (a - r0) dot n / d dot n	
+	Normal N(0, 0, 1);
 
-	// ray is parallel to the plane
-	if (fabs(d.dot(n)) < epsilon/100) {
-		return result;
-	}
-
-	double t = (a - p).dot(n) / d.dot(n);
-
-	if (t > epsilon) {
-		Point hitPoint = p + t * d;
-		
-		double x = hitPoint(0);
-		double z = hitPoint(2);
-		if ((x * x) <= 1 && (z*z) <= 1)
-		{
+	// Made with reference to https://www.cs.princeton.edu/courses/archive/fall00/cs426/lectures/raycast/sld017.htm
+	// and http://cosinekitty.com/raytrace/chapter11_reorientable.html#sect_11_7
+	if(fabs(d(2)) > epsilon) {
+		double t = -(p.dot(N)) / d.dot(N);
+		if (t > epsilon) {
 			RayIntersection hit;
-			hit.point = transform.apply(hitPoint);
-			hit.normal = transform.apply(Normal(n));
-			if (hit.normal.dot(ray.direction) > 0) {
-				hit.normal = -hit.normal;
+			hit.point = p + t * d;
+			double x = hit.point(0);
+			double y = hit.point(1);
+			if (fabs(x) <= sideLength + epsilon && 
+				fabs(y) <= sideLength + epsilon) {
+				hit.point = transform.apply(hit.point);
+				hit.normal = transform.apply(N);
+				if (hit.normal.dot(ray.direction) > 0) {
+					hit.normal = -hit.normal;
+				}
+				hit.normal = hit.normal / hit.normal.norm();
+				hit.distance = (hit.point - ray.point).norm();
+				hit.material = material;
+				result.push_back(hit);
 			}
-			hit.normal = hit.normal / hit.normal.norm();
-			hit.distance = (hit.point - ray.point).norm();
-			hit.material = material;
-			result.push_back(hit);
-		}
+		}	
 	}
-
 	return result;
 }

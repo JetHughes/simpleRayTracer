@@ -31,7 +31,7 @@ std::vector<RayIntersection> Torus::intersect(const Ray& ray) const {
 	const Point& D = inverseRay.point;
 	const Direction& E = inverseRay.direction;
 
-	// from http://cosinekitty.com/raytrace/chapter13_torus.html
+	// Adapted from http://cosinekitty.com/raytrace/chapter13_torus.html
 
 	double A = radius_;
 	double B = radius_ / 2;
@@ -70,10 +70,6 @@ std::vector<RayIntersection> Torus::intersect(const Ray& ray) const {
 		double tolerance = 1.0e-4;
 		if (t > tolerance) {
 			Point P = D + t * E;
-
-			// double test = A - sqrt(P(0)*P(0) + P(1)*P(1));
-			// double f = t*t + P(2)*P(2) - B*B;
-			// if (f < epsilon) continue;
 
 			double Px = P(0);
 			double Py = P(1);
