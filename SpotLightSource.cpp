@@ -28,15 +28,17 @@ SpotLightSource& SpotLightSource::operator=(const SpotLightSource& lightSource) 
 
 Colour SpotLightSource::getIlluminationAt(const Point& point) const {
 	// made with reference to https://github.com/GriffinSchneider/raytracer/blob/master/src/SpotLight.java
-	double angleRad = deg2rad(angle_);
+
+	double coneAngleRad = deg2rad(angle_);
+	Direction toHit = (point - location_)/(point - location_).norm();
+	double anglePointToLight = acos(toHit.dot(direction_/direction_.norm()));
+
+	// If the point is outside the cone of light, illumination is zero
+	if (anglePointToLight > coneAngleRad) return Colour(0, 0, 0);
+
+	// Otherwise, calculate the illumination using the inverse square law
 	double distance = (location_ - point).norm();
 	if (distance < epsilon) distance = epsilon;
-	Direction toHit = (point - location_)/(point - location_).norm();
-
-	double angle = acos(toHit.dot(direction_/direction_.norm()));
-
-	if (angle > angleRad) return Colour(0, 0, 0);
-
 	return (1.0 / (distance*distance)) * colour_;
 }
 

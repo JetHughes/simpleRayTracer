@@ -3,11 +3,13 @@
 Scene
     BackgroundColour 0.2 0.2 0.2
     RenderSize 400 400
+	Filename renders/spotlight.png
 End
 
 Object Plane
 	Mirror 0.2 0.2 0.2
 	Colour 0.8 0.8 0.8
+	Rotate X 90
 	Scale 5
 End
 
@@ -42,15 +44,43 @@ Light AmbientLight
 	Colour 0.2 0.2 0.2
 End
 
+#Light SpotLight
+#	Colour 2 2 2
+#	Direction 0 1 0
+#	Angle 30
+#	Location 0 -3 0
+#End
+
+#Light SpotLight
+#	Colour 2 2 2
+#	Direction -1 1 -1
+#	Angle 30
+#	Location 2 -3 2
+#End
+#
 Light SpotLight
-	Colour 2 2 2
-	Direction -1 1 -1
+	Colour 5 5 5
+	Direction -1 1 1
 	Angle 30
-	Location 0 -3 0
+	Location 3 -3 -3
 End
+#
+#Light SpotLight
+#	Colour 2 2 2
+#	Direction 1 1 -1
+#	Angle 30
+#	Location -2 -3 2
+#End
+#
+#Light SpotLight
+#	Colour 2 2 2
+#	Direction -1 1 -1
+#	Angle 30
+#	Location -2 -3 -2
+#End
 
 Camera PinholeCamera 1
     Rotate X -40 # look down a bit
     Rotate Y 45
-	Translate -2.5 -2.5 -2.5 # Move camera back and up
+	Translate -2 -2.5 -2 # Move camera back and up
 End

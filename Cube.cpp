@@ -57,14 +57,16 @@ std::vector<RayIntersection> Cube::intersect(const Ray& ray) const {
 	double t;
 
 	// Check for intersections with the six faces of the cube
-	if (fabs(d(0)) > epsilon) {
+
+	if (fabs(d(0)) > epsilon) { // Check that the ray is not parallel to the plane
 		t=(halfSideLength-p(0))/d(0);
 		if (t>epsilon) {
 			RayIntersection hit;	
 			hit.point = p + t*d;
-			if (isInside(hit.point, halfSideLength)) {
+			// Check that the intersection point is within the cube
+			if (isInside(hit.point, halfSideLength)) { 
 				hit.point = transform.apply(hit.point);
-				hit.normal = Normal(1, 0, 0);				
+				hit.normal = transform.apply(Normal(1, 0, 0));
 				if (hit.normal.dot(ray.direction) > 0) {
 					hit.normal = -hit.normal;
 				}
@@ -80,7 +82,7 @@ std::vector<RayIntersection> Cube::intersect(const Ray& ray) const {
 			hit.point = p + t*d;
 			if (isInside(hit.point, halfSideLength)) {
 				hit.point = transform.apply(hit.point);
-				hit.normal = Normal(-1, 0, 0);				
+				hit.normal = transform.apply(Normal(-1, 0, 0));
 				if (hit.normal.dot(ray.direction) > 0) {
 					hit.normal = -hit.normal;
 				}
@@ -98,7 +100,7 @@ std::vector<RayIntersection> Cube::intersect(const Ray& ray) const {
 			hit.point = p + t*d;
 			if (isInside(hit.point, halfSideLength)) {
 				hit.point = transform.apply(hit.point);
-				hit.normal = Normal(0, 1, 0);				
+				hit.normal = transform.apply(Normal(0, 1, 0));
 				if (hit.normal.dot(ray.direction) > 0) {
 					hit.normal = -hit.normal;
 				}
@@ -114,7 +116,7 @@ std::vector<RayIntersection> Cube::intersect(const Ray& ray) const {
 			hit.point = p + t*d;
 			if (isInside(hit.point, halfSideLength)) {
 				hit.point = transform.apply(hit.point);
-				hit.normal = Normal(0, -1, 0);				
+				hit.normal = transform.apply(Normal(0, -1, 0));
 				if (hit.normal.dot(ray.direction) > 0) {
 					hit.normal = -hit.normal;
 				}
@@ -132,7 +134,7 @@ std::vector<RayIntersection> Cube::intersect(const Ray& ray) const {
 			hit.point = p + t*d;
 			if (isInside(hit.point, halfSideLength)) {
 				hit.point = transform.apply(hit.point);
-				hit.normal = Normal(0, 0, 1);				
+				hit.normal = transform.apply(Normal(0, 0, 1));
 				if (hit.normal.dot(ray.direction) > 0) {
 					hit.normal = -hit.normal;
 				}
@@ -148,7 +150,7 @@ std::vector<RayIntersection> Cube::intersect(const Ray& ray) const {
 			hit.point = p + t*d;
 			if (isInside(hit.point, halfSideLength)) {
 				hit.point = transform.apply(hit.point);
-				hit.normal = Normal(0, 0, -1);				
+				hit.normal = transform.apply(Normal(0, 0, -1));
 				if (hit.normal.dot(ray.direction) > 0) {
 					hit.normal = -hit.normal;
 				}
