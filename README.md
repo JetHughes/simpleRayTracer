@@ -1,13 +1,13 @@
 # Primitive Ray Tracer
 
-![image](./renders/spheres_colour.png)
-![image](./renders/simplecolour.png)
-
 - Ray traced lighting, shadows, reflections
 - Spotlight, Directional Light and ,
 - Ray-object intersections for planes, cubes, cylinders, spheres, and tori
 - Constructive solid geometry operations (some issues)
 - Supersampling
+
+![image](./renders/spheres_colour.png)
+![image](./renders/simplecolour.png)
 
 ## Notes
 
