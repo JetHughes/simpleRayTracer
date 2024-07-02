@@ -4,4 +4,4 @@ ParseSceneBlock is modified to take an additional parameter supersampling. If th
 keyword supersampling is present in the sceneblock, supersampling is used. Otherwise 
 it is not
 
-[image](renders/spheres_colour.png)
+![image](./renders/spheres_colour.png)
