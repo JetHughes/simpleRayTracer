@@ -1,6 +1,7 @@
 # Primitive Ray Tracer
 
 ![image](./renders/spheres_colour.png)
+![image](./renders/simple_colour.png)
 
 - Ray traced lighting, shadows, reflections
 - Spotlight, Directional Light and ,
